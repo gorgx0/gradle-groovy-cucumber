@@ -25,10 +25,12 @@ dependencies {
     testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
     testImplementation 'io.cucumber:cucumber-groovy:4.3.0'
 }
-
 configurations {
     cucumberRuntime {
         extendsFrom testImplementation
+        dependencies {
+            testCompile 'io.rest-assured:rest-assured:4.0.0'
+        }
     }
 }
 
