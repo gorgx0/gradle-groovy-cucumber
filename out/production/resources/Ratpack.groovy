@@ -1,12 +1,9 @@
-import org.slf4j.LoggerFactory
-
 import java.nio.file.Paths
 
 import static ratpack.groovy.Groovy.ratpack
 
 final String EATER_ID_COOKIE = "EATER-ID-COOKIE"
 
-final LOGGER = LoggerFactory.getLogger("ratpack")
 
 ratpack {
 
@@ -22,7 +19,9 @@ ratpack {
         }
 
         all{ ctx ->
-            LOGGER.debug("URI: {}", ctx.request.uri)
+            println "******************************"
+            println ctx.request.uri
+            println "******************************"
             def eaterCookie = ctx.request.cookies.find {it.name().equals(EATER_ID_COOKIE)}
             if (request.path != 'registration' && eaterCookie == null){
                 redirect(307, '/registration')
@@ -31,16 +30,13 @@ ratpack {
             }
         }
 
-        path("registration") {
-            byMethod {
-                get {
-                    render("Registration")
-                }
-                post {
-                    response.cookie(EATER_ID_COOKIE,"registered_user")
-                    render("Registered")
-                }
-            }
+        get("registration") {
+            render("Registration")
         }
+
+        post("registration") {
+            response.cookie(EATER_ID_COOKIE,"registered_user")
+        }
+
     }
 }
