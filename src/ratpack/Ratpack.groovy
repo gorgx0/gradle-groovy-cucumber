@@ -1,4 +1,6 @@
 import org.slf4j.LoggerFactory
+import ratpack.form.Form
+import ratpack.http.Status
 
 import java.nio.file.Paths
 
@@ -37,8 +39,15 @@ ratpack {
                     render("Registration")
                 }
                 post {
-                    response.cookie(EATER_ID_COOKIE,"registered_user")
-                    render("Registered")
+                    parse(Form).then { f->
+                        if (f.userName) {
+                            response.cookie(EATER_ID_COOKIE,"registered_user")
+                            render("Registered")
+                        }else {
+                            response.status(Status.BAD_REQUEST)
+                            render("No userName given")
+                        }
+                    }
                 }
             }
         }
