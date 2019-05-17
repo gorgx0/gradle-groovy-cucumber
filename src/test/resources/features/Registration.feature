@@ -7,7 +7,7 @@ Feature: Registration of new users
 
   Scenario: unregistered user can register via login/register page
     Given unregistered user
-    When user registers
+    When user registers with name "user01"
     Then user is registered user
 
 
